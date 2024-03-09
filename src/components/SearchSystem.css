@@ -1,0 +1,17 @@
+.Search{
+    border-radius: 0.375rem;
+    color: aliceblue;
+    padding: 10px;
+  
+}
+
+.Name{
+    align-items: center;
+    margin-top: 0px;
+}
+
+.Name:hover{
+    align-self: center;
+    background-color: blue;
+    color: aliceblue;
+}
