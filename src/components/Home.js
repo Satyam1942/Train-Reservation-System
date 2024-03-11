@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import './Home.css';
 import Search from './SearchSystem';
 import { useRef, useState } from 'react';
@@ -6,16 +7,18 @@ import { useRef, useState } from 'react';
 
 function Home(){
     const [text1,setText1]=useState('');    
-    const [text2,setText2]=useState('');    
+    const [text2,setText2]=useState('');  
+    const [dropDownNumber ,setDropDownNumber] = useState(true);  
     const inputRef1=useRef(null);
     const inputRef2=useRef(null);
-    
+    const navigate = useNavigate();
 
     function handleChange1(event){
         setTimeout(()=>{
             inputRef1.current.focus();
         },1);
         setText1(event.target.value);
+        setDropDownNumber(true);
     }
 
     function handleChange2(event){
@@ -23,6 +26,22 @@ function Home(){
             inputRef2.current.focus();
         },1);
         setText2(event.target.value);
+        setDropDownNumber(false);
+    }
+
+    function submit() {
+        if(text1!="" && text2!="" && text1!=text2)
+            submitInfo();
+        else
+           return showErrorDialog();
+    }
+
+    function submitInfo(){
+        return  navigate("/traindata");
+    }
+
+    function showErrorDialog(){
+         alert("Enter valid Source and Destination Station!");
     }
 
     const Card=()=>{
@@ -32,14 +51,19 @@ function Home(){
             <h2 className="form-header">Enter Train details</h2>
             <form className="form-container">
 
-            
               <input  ref= {inputRef1} type="text" placeholder="Enter departing station" value={text1} onChange={handleChange1} className="search-input1" />
-              <Search token={text1} changeState = {setText1}/>
+             
+             <div>
+              {dropDownNumber && <Search token={text1} changeState = {setText1}/>}
+             </div>
           
               <input  ref = {inputRef2} type="text" placeholder="Enter destination station" value={text2} onChange={handleChange2} className="search-input2" />
-              <Search token={text2} changeState = {setText2}/>    
+              
+              <div>
+              {!dropDownNumber && <Search token={text2} changeState = {setText2}/>  }  
+              </div>
 
-              <button type="submit" className="search-button">Search</button>
+              <button  className="search-button" onClick={()=>submit()}>Search</button>
 
             </form>
           </div>

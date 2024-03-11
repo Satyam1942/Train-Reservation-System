@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import "./SearchSystem.css"
 import Home from  "./Home.js"
 const places=["Amsterdam","Kal" ,"Kolkata","Dhanbad","Delhi","Mumbai","Chennai","Bangalore"];
@@ -9,9 +9,20 @@ function Search(prop){
 
     const [visibilityDropdown, setVisibilityDropdown]  = useState(true);
 
+    useEffect(() => {
+        const handleClickOutside = () => {
+            setVisibilityDropdown(false);
+        };
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [setVisibilityDropdown]);
+
     function handleOnClick(name){
             prop.changeState(name);
-            setVisibilityDropdown(false);
     }
 
     return (
