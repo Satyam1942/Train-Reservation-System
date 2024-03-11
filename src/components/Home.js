@@ -36,8 +36,8 @@ function Home(){
               <input  ref= {inputRef1} type="text" placeholder="Enter departing station" value={text1} onChange={handleChange1} className="search-input1" />
               <Search token={text1} changeState = {setText1}/>
           
-             <input  ref = {inputRef2} type="text" placeholder="Enter destination station" value={text2} onChange={handleChange2} className="search-input2" />
-             <Search token={text2} changeState = {setText2}/>    
+              <input  ref = {inputRef2} type="text" placeholder="Enter destination station" value={text2} onChange={handleChange2} className="search-input2" />
+              <Search token={text2} changeState = {setText2}/>    
 
               <button type="submit" className="search-button">Search</button>
 

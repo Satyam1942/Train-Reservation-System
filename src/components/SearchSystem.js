@@ -17,12 +17,12 @@ function Search(prop){
     return (
         <>
         {
-           <div className="Search">
+            visibilityDropdown &&  <div className="Search">
                 {
-                   visibilityDropdown &&  places.filter(item=>{
+                    places.filter(item=>{
                         const searchItem =prop.token.toLowerCase();
                         const itemList=item.toLowerCase()
-                        return visibilityDropdown && searchItem && itemList.startsWith(searchItem)
+                        return searchItem && itemList.startsWith(searchItem)
                     }).map((name,index)=>(
                         <ul className="Name" onClick={()=>handleOnClick(name)} >
                             {name}

@@ -1,5 +1,5 @@
 .navbar {
-    background: linear-gradient(90deg, rgb(232, 244, 247) 0%, rgb(45, 44, 49) 120%);
+    background: linear-gradient(90deg, rgb(232, 244, 247) 0%, rgb(45, 44, 49) 100%);
     height: 80px;
     display: flex;
     justify-content: center;
@@ -21,7 +21,7 @@
   .navbar-logo {
     color: #000000;
     font-weight: bold;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family:cursive;
     justify-self: start;
     margin-left: 20px;
     cursor: pointer;
@@ -33,7 +33,7 @@
   
   .fa-typo3 {
     color: black;
-    margin-left: 1.5rem;
+    margin-left: 1rem;
     font-size: 1.8rem;
     height: 120px;
     width: 150px;
