@@ -1,15 +1,22 @@
 import React from 'react';
 import './Traindata.css';
+import { useNavigate } from 'react-router-dom';
 
 
 const TrainCard = ({ departureStation, arrivalStation, trainName, availableTickets }) => {
+  const navigate = useNavigate();
+
+  const book=()=>{
+    return navigate("/traindetails");
+  }
+
   return (
     <div className="train-card">
       <h3>{trainName}</h3>
       <p><strong>Departure Station:</strong> {departureStation}</p>
       <p><strong>Arrival Station:</strong> {arrivalStation}</p>
       <p><strong>Available Tickets:</strong> {availableTickets}</p>
-      <button type="submit" className="book">Book Tickets</button>
+      <button type="submit" className="book" onClick={()=>book()}>Book Tickets</button>
       <button type="submit" className="cancel">Cancel Tickets</button>
     </div>
   );

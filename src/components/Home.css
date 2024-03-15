@@ -9,7 +9,8 @@
     transform: translateY(0);
     transition: transform 0.3s ease-in-out;
     position: relative; /* Add this line */
-    z-index: 1; /* Add this line */
+    z-index: 1000; /* Add this line */
+    border: 5px solid white;
   }
   
   .form-header {

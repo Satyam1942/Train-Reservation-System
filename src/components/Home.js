@@ -3,7 +3,7 @@ import './Home.css';
 import Search from './SearchSystem';
 import { useRef, useState } from 'react';
 
-
+const places=["Jaipur","Hyderabad" ,"Kolkata","Dhanbad","Delhi","Mumbai","Chennai","Bangalore","Surat","Pune"];
 
 function Home(){
     const [text1,setText1]=useState('');    
@@ -30,7 +30,7 @@ function Home(){
     }
 
     function submit() {
-        if(text1!="" && text2!="" && text1!=text2)
+        if(text1!="" && text2!="" && text1!=text2 && places.includes(text1) && places.includes(text2))
             submitInfo();
         else
            return showErrorDialog();

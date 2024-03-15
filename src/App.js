@@ -4,6 +4,7 @@ import Home from './components/Home'
 import Traindata from './components/Traindata';
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
 import BackgroundSlideshow from './components/BackgroundSlideshow';
+import TrainDetails from './components/TrainDetails';
 
 // const express = require("express");
 // const app=express()
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home/>} />
           <Route path='/traindata' element={<Traindata/>} />
+          <Route path='/traindetails' element={<TrainDetails/>} />
         </Routes>
       </Router>
     </>

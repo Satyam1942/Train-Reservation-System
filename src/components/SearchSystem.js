@@ -1,7 +1,7 @@
 import React, { useState , useEffect } from "react";
 import "./SearchSystem.css"
 import Home from  "./Home.js"
-const places=["Amsterdam","Kal" ,"Kolkata","Dhanbad","Delhi","Mumbai","Chennai","Bangalore"];
+const places=["Jaipur","Hyderabad" ,"Kolkata","Dhanbad","Delhi","Mumbai","Chennai","Bangalore","Surat","Pune"];
 
 places.sort();
 
