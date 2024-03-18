@@ -6,12 +6,7 @@ import { BrowserRouter as Router,Routes,Route } from 'react-router-dom';
 import BackgroundSlideshow from './components/BackgroundSlideshow';
 import TrainDetails from './components/TrainDetails';
 
-// const express = require("express");
-// const app=express()
-// app.use(express.json())
-// app.listen(3001,()=>{
-//   console.log("Server running")
-// })
+
 
 function App() {
   return (
