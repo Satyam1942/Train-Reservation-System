@@ -12,6 +12,8 @@ function BackgroundSlideshow(){
     const backgroundImageList = [bg1,bg2,bg3,bg4];
     const time = 5000;
 
+    const [backgroundImageLoaded, setBackgroundImageLoaded] = useState(false);
+
     useEffect(()=>{
         const slideShowInterval = setInterval(()=>{
                 setCurrentIndex((currentImageIndex)=>currentImageIndex = (currentImageIndex+1)%backgroundImageList.length)
@@ -32,12 +34,24 @@ function BackgroundSlideshow(){
         top: 0,
         left: 0,
         zIndex: -1,
+        opacity: backgroundImageLoaded?1:0
       };
 
+      useEffect(() => {
+        const imagePreload = new Image();
+        imagePreload.src = backgroundImageList[currentImageIndex];
+        imagePreload.onload = () => {
+          // Set opacity to 1 when image is loaded
+          setBackgroundImageLoaded(true);
+        };
+      
+        return () => {
+          imagePreload.onload = null; // Clean up
+        };
+      }, [currentImageIndex]);
 
       return (
       <div style={backgroundImageStyle}></div>
       );
 }
-
 export default BackgroundSlideshow;
