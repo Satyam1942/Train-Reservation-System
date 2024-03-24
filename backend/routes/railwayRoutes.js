@@ -5,20 +5,13 @@ const db =require('../app.js')
 const mongoose=require('mongoose')
 
 //get trains with destination and arrival
-router.get('/getTrains', async (req, res) => {
-    const data = new model({
-        departurePlace: req.body.departurePlace,
-        arrivalPlace: req.body.arrivalPlace
-    })
-
+router.get('/getTrains/:departurePlace/:arrivalPlace', async (req, res) => {
     try {
-        const departurePlace = data.departurePlace;
-        const arrivalPlace = data.arrivalPlace;
-
+        const departurePlace = req.params.departurePlace;
+        const arrivalPlace = req.params.arrivalPlace;
         const Train = mongoose.model("Train Information");
-        const trains = await Train.find({departurePlace:departurePlace,arrivalPlace:arrivalPlace}).exec();
-  
-        res.status(200).json(trains)
+        const trains = await Train.find({departurePlace:departurePlace,arrivalPlace:arrivalPlace});
+        res.status(200).json(trains);
     }
     catch (error) {
         res.status(404).json({ message: error.message })
@@ -59,6 +52,8 @@ router.post('/addTrain', async(req, res) => {
 
 //Book ticket by train id and no of tickets
 router.patch('/book/:id/:noOfTickets', async (req, res) => {
+    // const session = await mongoose.startSession();
+    // session.startTransaction();
     try {
         const trainNo = req.params.id;
         const noOfTickets = req.params.noOfTickets;
@@ -68,20 +63,29 @@ router.patch('/book/:id/:noOfTickets', async (req, res) => {
             //allow booking
             const updatedData = { noOfSeatsAvailable: (availableSeats.noOfSeatsAvailable - noOfTickets) };
             const options = { new: true };
+            // const result = await model.findByIdAndUpdate(trainNo, updatedData, options).session(session);
             const result = await model.findByIdAndUpdate(trainNo, updatedData, options)
+            // await session.commitTransaction();
             res.status(200).send(result);
         } else {
             //do not allow booking
+            // await session.abortTransaction();
             return res.status(409).json({ message: "Seats Unavailable!!" });
         }
 
     } catch (error) {
+        // await session.abortTransaction();
         res.status(400).json({ message: error.message })
     }
+    // }finally{
+    //     session.endSession();
+    // }
 })
 
 //cancel ticket by train id
 router.patch('/cancel/:id/:noOfTickets', async (req, res) => {
+    // const session = await mongoose.startSession();
+    // session.startTransaction();
     try {
         const trainNo = req.params.id;
         const noOfTickets = req.params.noOfTickets;
@@ -90,11 +94,17 @@ router.patch('/cancel/:id/:noOfTickets', async (req, res) => {
 
         const updatedData = { noOfSeatsAvailable: newSeatCount };
         const options = { new: true };
+        // const result = await model.findByIdAndUpdate(trainNo, updatedData, options).session(session);
         const result = await model.findByIdAndUpdate(trainNo, updatedData, options)
+        // await session.commitTransaction();
         res.status(200).send(result);
     } catch (error) {
+        // await session.abortTransaction();
         res.status(400).json({ message: error.message })
-    }
+    } 
+    // finally{
+    //     session.endSession();
+    // }
 })
 
 module.exports = router;

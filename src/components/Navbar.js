@@ -47,11 +47,11 @@ function NavBar(){
                                 Trains
                             </Link>
                         </li>
-                        {/* <li className='nav-item'>
-                            <Link to="/gallery" className="nav-links" onClick={closeMobileMenu}>
-                                Gallery
+                        <li className='nav-item'>
+                            <Link to="/projectStarter" className="nav-links" onClick={closeMobileMenu}>
+                               Start Project
                             </Link>
-                        </li> */}
+                        </li>
                         {/* <li className='nav-item'>
                             <Link to="/sign-up" className="nav-links-mobile" onClick={closeMobileMenu}>
                                 Sign Up
