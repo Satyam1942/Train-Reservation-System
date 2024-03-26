@@ -95,8 +95,8 @@ function startWorker(params) {
                     if (!listOfTrainId.includes(trainId))
                         listOfTrainId.push(trainId);
     
-                    self.postMessage({ type: 'map', message: listOfBookedTrains });
-                    self.postMessage({ type: 'info', message: info });
+                    self.postMessage({ type: 'map', message: listOfBookedTrains, id:threadId });
+                    self.postMessage({ type: 'info', message: info , id:threadId});
                     console.log(listOfBookedTrains);
                 }
             ).catch(
@@ -122,7 +122,7 @@ function startWorker(params) {
             if (listOfTrainId.length == 0) {
                 const info = `CAN't CANCEL TICKET`;
                 console.log("CAN't CANCEL TICKET\n");
-                self.postMessage({ type: 'info', message: info });
+                self.postMessage({ type: 'info', message: info, id:threadId });
                 return;
             }
     
@@ -133,7 +133,7 @@ function startWorker(params) {
             if (newSeats < 0) {
                 const info = `CAN't CANCEL TICKET`;
                 console.log("CAN't CANCEL TICKET\n");
-                self.postMessage({ type: 'info', message: info });
+                self.postMessage({ type: 'info', message: info, id:threadId });
                 return;
             }
     
@@ -144,8 +144,8 @@ function startWorker(params) {
                     const info = `${noOfSeatsToCancel} Ticket of ${trainId} Cancelled Successfully by Thread ${threadId}`;
                     console.log(`${noOfSeatsToCancel} Ticket of ${trainId} Cancelled Successfully by Thread \n`);
                     listOfBookedTrains.set(trainId, newSeats);
-                    self.postMessage({ type: 'map', message: listOfBookedTrains });
-                    self.postMessage({ type: 'info', message: info });
+                    self.postMessage({ type: 'map', message: listOfBookedTrains , id:threadId });
+                    self.postMessage({ type: 'info', message: info , id:threadId });
                     console.log(listOfBookedTrains);
                 }
             ).catch(
@@ -181,7 +181,7 @@ function startWorker(params) {
            
             console.log(`Worker ${threadId} terminating...`);
             clearInterval(intervalId); // Clear the interval to stop further executions
-            //  self.postMessage({ type: 'map', message: 'Thread is terminating' });
+             self.postMessage({ type: 'health', message: 'Thread is terminating' , id:threadId });
             self.close(); // Terminate the worker
         }, threadKillTime);
         
