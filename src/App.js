@@ -10,6 +10,7 @@ import ProjectStarter from './components/ProjectStarter';
 
 
 function App() {
+  const url = "http://localhost:5000/railway/getAllTrains";
   return (
     <>
       <Router>
@@ -17,7 +18,7 @@ function App() {
         <BackgroundSlideshow/>
         <Routes>
           <Route path='/' element={<Home/>} />
-          <Route path='/traindata' element={<Traindata/>} />
+          <Route path='/traindata' element={<Traindata url = {url}/>} />
           <Route path='/traindetails' element={<TrainDetails/>} />
           <Route path='/projectStarter' element={<ProjectStarter/>} />
         </Routes>

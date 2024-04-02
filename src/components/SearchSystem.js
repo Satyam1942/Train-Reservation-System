@@ -1,7 +1,7 @@
 import React, { useState , useEffect } from "react";
 import "./SearchSystem.css"
 import Home from  "./Home.js"
-const places=["Jaipur","Hyderabad" ,"Kolkata","Dhanbad","Delhi","Mumbai","Chennai","Bangalore","Surat","Pune"];
+const places = ["Delhi" , "Mumbai","Bangalore", "Kolkata", "Dhanbad"];
 
 places.sort();
 
@@ -31,7 +31,7 @@ function Search(prop){
             visibilityDropdown &&  <div className="Search">
                 {
                     places.filter(item=>{
-                        const searchItem =prop.token.toLowerCase();
+                        const searchItem = prop.token.toLowerCase();
                         const itemList=item.toLowerCase()
                         return searchItem && itemList.startsWith(searchItem)
                     }).map((name,index)=>(
@@ -40,8 +40,8 @@ function Search(prop){
                         </ul>
                     ))
                 }
-            </div>
-}
+                 </div>
+        }
         </>
     )
 }

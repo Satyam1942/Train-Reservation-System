@@ -3,8 +3,8 @@
 
 function startWorker(params) {
     
-    const threadKillTime = 13000;
-    const threadSleepTime = 2000;
+    const threadKillTime = 300000;
+    const threadSleepTime = 12000;
     const threadId = params.id;
     let listOfBookedTrains = new Map();
     let listOfTrainId = [];
@@ -52,8 +52,7 @@ function startWorker(params) {
     async function bookTicket() {
     
         try {
-            // const places=["Jaipur","Hyderabad" ,"Kolkata","Dhanbad","Delhi","Mumbai","Chennai","Bangalore","Surat","Pune"];
-            const places = ["Kolkata", "Dhanbad"];
+            const places = ["Delhi" , "Mumbai","Bangalore", "Kolkata", "Dhanbad"];
             var searchTicketApiEndPoint = "http://localhost:5000/railway/getTrains";
             var bookTicketApiEndPoint = "http://localhost:5000/railway/book";
     
@@ -71,9 +70,11 @@ function startWorker(params) {
             const searchUrl = searchTicketApiEndPoint + `/${src}` + `/${dest}`;
             const searchResponse = await getDataWithBody(searchUrl);
     
-            if (searchResponse[0] == undefined)
+            if (searchResponse[0] == undefined){
+                const info = `Train from ${src} to ${dest} NOT FOUND!`
+                self.postMessage({ type: 'info', message: info , id:threadId});
                 return;
-    
+            }
             const trainId = searchResponse[0]._id;
             const noOfSeatsAvailableInTrain = 5;
             const noOfSeatsToBook = Math.floor(Math.random() * noOfSeatsAvailableInTrain) + 1;
@@ -114,7 +115,8 @@ function startWorker(params) {
     
     /*-----------------CANCEL TICKET --------------*/
     async function cancelTicket() {
-    
+
+        var searchTicketApiEndPoint = "http://localhost:5000/railway/getTrains";
         var cancelTicketApiEndPoint = "http://localhost:5000/railway/cancel";
         //if booked a train then only it can cancel it
         try {
@@ -138,10 +140,12 @@ function startWorker(params) {
             }
     
             const urlCancel = cancelTicketApiEndPoint + `/${trainId}` + `/${noOfSeatsToCancel}`;
-    
+            const searchUrl = searchTicketApiEndPoint + `/${trainId}`;
+            const searchResponse = await getDataWithBody(searchUrl);
+
             const cancelResponse = patchData(urlCancel).then(
                 cancelResponse => {
-                    const info = `${noOfSeatsToCancel} Ticket of ${trainId} Cancelled Successfully by Thread ${threadId}`;
+                    const info = `${noOfSeatsToCancel} Ticket of ${searchResponse[0].name} Cancelled Successfully by Thread ${threadId}`;
                     console.log(`${noOfSeatsToCancel} Ticket of ${trainId} Cancelled Successfully by Thread \n`);
                     listOfBookedTrains.set(trainId, newSeats);
                     self.postMessage({ type: 'map', message: listOfBookedTrains , id:threadId });

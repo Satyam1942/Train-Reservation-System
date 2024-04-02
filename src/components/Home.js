@@ -3,7 +3,7 @@ import './Home.css';
 import Search from './SearchSystem';
 import { useRef, useState } from 'react';
 
-const places=["Jaipur","Hyderabad" ,"Kolkata","Dhanbad","Delhi","Mumbai","Chennai","Bangalore","Surat","Pune"];
+const places = ["Delhi" , "Mumbai","Bangalore", "Kolkata", "Dhanbad"];
 
 function Home(){
     const [text1,setText1]=useState('');    
@@ -37,7 +37,7 @@ function Home(){
     }
 
     function submitInfo(){
-        return  navigate("/traindata");
+        return  navigate("/traindata",{state:{url:{url:`http://localhost:5000/railway/getTrains/${text1}/${text2}`}}});
     }
 
     function showErrorDialog(){

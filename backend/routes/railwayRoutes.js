@@ -4,6 +4,13 @@ const router = express.Router();
 const db =require('../app.js')
 const mongoose=require('mongoose')
 
+
+const {Mutex} = require('async-mutex')
+
+const bookingMutex = new Mutex()
+const cancelMultex = new Mutex()
+
+
 //get trains with destination and arrival
 router.get('/getTrains/:departurePlace/:arrivalPlace', async (req, res) => {
     try {
@@ -11,6 +18,19 @@ router.get('/getTrains/:departurePlace/:arrivalPlace', async (req, res) => {
         const arrivalPlace = req.params.arrivalPlace;
         const Train = mongoose.model("Train Information");
         const trains = await Train.find({departurePlace:departurePlace,arrivalPlace:arrivalPlace});
+        res.status(200).json(trains);
+    }
+    catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+})
+
+//get trains by id
+router.get('/getTrains/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const Train = mongoose.model("Train Information");
+        const trains = await Train.find({_id:id});
         res.status(200).json(trains);
     }
     catch (error) {
@@ -52,8 +72,8 @@ router.post('/addTrain', async(req, res) => {
 
 //Book ticket by train id and no of tickets
 router.patch('/book/:id/:noOfTickets', async (req, res) => {
-    // const session = await mongoose.startSession();
-    // session.startTransaction();
+    const release = await bookingMutex.acquire();
+
     try {
         const trainNo = req.params.id;
         const noOfTickets = req.params.noOfTickets;
@@ -76,16 +96,15 @@ router.patch('/book/:id/:noOfTickets', async (req, res) => {
     } catch (error) {
         // await session.abortTransaction();
         res.status(400).json({ message: error.message })
+    }finally{
+        release();
     }
-    // }finally{
-    //     session.endSession();
-    // }
 })
 
 //cancel ticket by train id
 router.patch('/cancel/:id/:noOfTickets', async (req, res) => {
-    // const session = await mongoose.startSession();
-    // session.startTransaction();
+    const release = await cancelMultex.acquire()
+
     try {
         const trainNo = req.params.id;
         const noOfTickets = req.params.noOfTickets;
@@ -102,9 +121,9 @@ router.patch('/cancel/:id/:noOfTickets', async (req, res) => {
         // await session.abortTransaction();
         res.status(400).json({ message: error.message })
     } 
-    // finally{
-    //     session.endSession();
-    // }
+    finally{
+        release()
+    }
 })
 
 module.exports = router;
